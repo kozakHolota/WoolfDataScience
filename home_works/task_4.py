@@ -9,6 +9,9 @@ def get_days_from_today(date: str) -> int:
     return (datetime.today() - datetime.strptime(date, "%Y-%m-%d")).days
 
 def get_numbers_ticket(min: int, max: int, quantity: int) -> list:
+    real_quantity = max - min
+    if quantity >= real_quantity:
+        raise ValueError(f"Загальна кількість номерів {quantity} перевищує реальну кількість унікальних значень: {real_quantity}")
     lottery_numbers = random.choices(range(min, max), k=quantity)
     lottery_numbers.sort()
     return lottery_numbers
@@ -59,3 +62,4 @@ if __name__ == "__main__":
     ]
 
     print(f"Завдання №4. Сучасна дата: {datetime.today().strftime('%Y-%m-%d')}. Працівники, що мають день народження цього тижня: {get_upcoming_birthdays(users)}")
+    print("Завдання №2. І ось кубики з нашого неправильного лототрону: ", get_numbers_ticket(1, 10, 9))
