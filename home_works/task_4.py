@@ -27,8 +27,10 @@ def get_upcoming_birthdays(users: List[dict]) -> List[dict]:
     today_date = datetime.today()
     def user_birthday_check(user):
         user_bdate = datetime.strptime(user["birthday"], "%Y.%m.%d")
-        test_ddate = user_bdate.replace(year=today_date.year)
-        return (today_date - test_ddate).days < 7
+        test_ddate = user_bdate.replace(year=today_date.year + 1) \
+            if user_bdate.month ==1 and today_date.month == 12 \
+            else user_bdate.replace(year=today_date.year)
+        return abs((today_date - test_ddate).days) < 7
 
     return list(filter(user_birthday_check, users))
 
