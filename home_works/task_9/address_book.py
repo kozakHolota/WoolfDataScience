@@ -1,13 +1,12 @@
 from collections import UserDict
+from datetime import datetime
+
 from home_works.task_8.decorators import params_handler
 
 
 class Field:
     def __init__(self, value):
         self.value = value
-
-    def __eq__(self, other):
-        return self.value == other.value
 
     def __str__(self):
         return str(self.value)
@@ -23,11 +22,23 @@ class Phone(Field):
             raise ValueError("Phone number must be 10 digits")
         super().__init__(value)
 
+class Birthday(Field):
+    def __init__(self, value):
+        try:
+            super().__init__(datetime.strptime(value, "%d.%m.%Y"))
+        except ValueError:
+            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+
 
 class Record:
-    def __init__(self, name: str, phones: list[Phone] = None):
+    def __init__(self, name: str, birthday: Birthday = None, phones: list[Phone] = None):
+        self.birthday = birthday
         self.name = Name(name)
         self.phones = [] if not phones else phones
+
+    def add_birthday(self, birthday: str):
+        self.birthday = Birthday(birthday)
+        return "Birthday added successfully"
 
     def add_phone(self, phone: str):
         try:
