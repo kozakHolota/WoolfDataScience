@@ -44,7 +44,7 @@ class CommandHandler:
     def help(self):
         """Displays all available commands
                             Usage: help"""
-        commands = ["exit"]
+        commands = ["exit", "close", "quit"]
         for lib in self.libs:
             for command in lib.command_map:
                 commands.append(command)
@@ -56,7 +56,7 @@ class CommandHandler:
         command_name = command_list[0].lower()
         command_args = command_list[1:] if len(command_list) > 1 else []
 
-        if command_name == "exit":
+        if command_name in ("exit", "quit", "close"):
             try:
                 self.__exit()
             except (TypeError, ValueError) as e:
