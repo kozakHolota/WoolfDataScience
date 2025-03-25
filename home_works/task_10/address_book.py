@@ -101,7 +101,7 @@ class AddressBook(UserDict):
         "birthdays": "show_birthdays"
     }
 
-    def __init__(self, address_book_file: str|Path = "address_book.pkl"):
+    def __init__(self, address_book_file: str|Path):
         super().__init__()
         self.address_book_file = address_book_file if isinstance(address_book_file, str) else Path(address_book_file)
 
