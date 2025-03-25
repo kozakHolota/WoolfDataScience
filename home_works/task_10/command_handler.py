@@ -13,10 +13,10 @@ class CommandHandler:
     command_map = {
         "help": "help",
     }
-    def __init__(self, prompt: str):
+    def __init__(self, prompt: str, address_book_path: Path):
         self.prompt = prompt
-        address_book_path = Path("address_book.pkl")
-        self.libs = [AddressBook() if not address_book_path.exists() else pickle.load(address_book_path.open(mode="+rb")), self]
+        address_book_path = Path(address_book_path)
+        self.libs = [AddressBook(address_book_path) if not address_book_path.exists() else pickle.load(address_book_path.open(mode="+rb")), self]
 
     def __get_input(self, prompt: str) -> str:
         return input(Fore.BLUE + prompt + Style.DIM + Style.RESET_ALL)

@@ -1,6 +1,7 @@
 import pickle
 from collections import UserDict
 from datetime import datetime
+from pathlib import Path
 
 from home_works.task_10.decorators import params_handler
 
@@ -99,6 +100,11 @@ class AddressBook(UserDict):
         "show-birthday": "show_birthday",
         "birthdays": "show_birthdays"
     }
+
+    def __init__(self, address_book_file: str|Path = "address_book.pkl"):
+        super().__init__()
+        self.address_book_file = address_book_file if isinstance(address_book_file, str) else Path(address_book_file)
+
     def __setitem__(self, key, value):
         if not isinstance(value, Record):
             raise ValueError("Value must be an instance of class Record")
@@ -106,8 +112,7 @@ class AddressBook(UserDict):
         self.data[key] = value
 
     def __del__(self):
-        with open("address_book.pkl", "wb") as f:
-            pickle.dump(self, f)
+        pickle.dump(self, self.address_book_file.open("wb"))
 
     @params_handler
     def add_item(self, name: str, *phones) -> tuple:
