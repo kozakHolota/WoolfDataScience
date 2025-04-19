@@ -1,5 +1,7 @@
 from collections import UserDict
-from home_works.task_8.decorators import params_handler
+from datetime import datetime
+
+from home_works.python_course.task_9.decorators import params_handler
 
 
 class Field:
@@ -23,11 +25,39 @@ class Phone(Field):
             raise ValueError("Phone number must be 10 digits")
         super().__init__(value)
 
+class Birthday(Field):
+    def __init__(self, value):
+        try:
+            super().__init__(datetime.strptime(value, "%d.%m.%Y"))
+        except ValueError:
+            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+
+    def __str__(self):
+        return self.value.strftime("%d.%m.%Y")
+
+    def __repr__(self):
+        return self.value.strftime("%d.%m.%Y")
+
 
 class Record:
-    def __init__(self, name: str, phones: list[Phone] = None):
+    def __init__(self, name: str, birthday: Birthday = None, phones: list[Phone] = None):
+        self.__birthday = birthday
         self.name = Name(name)
         self.phones = [] if not phones else phones
+
+    @property
+    def birthday(self):
+        return str(self.__birthday)
+
+    @property
+    def days_to_birthday(self):
+        tmp_bd = self.__birthday.value.replace(year=datetime.today().year)
+        return (tmp_bd - datetime.today()).days
+
+    def add_birthday(self, birthday: str):
+        self.__birthday = Birthday(birthday)
+        return "Birthday added successfully"
+
 
     def add_phone(self, phone: str):
         try:
@@ -54,15 +84,19 @@ class Record:
         return Phone(phone) in self.phones
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(str(p) for p in self.phones)}"
+        return f"Contact name: {self.name.value}, phones: {'; '.join(str(p) for p in self.phones)}, birthday: {self.birthday}"
 
 class AddressBook(UserDict):
     command_map = {
         "add": "add_item",
         "find": "find",
+        "phone": "show_phone",
         "all": "get_all",
         "remove": "remove",
-        "edit": "edit",
+        "change": "edit",
+        "add-birthday": "add_birthday",
+        "show-birthday": "show_birthday",
+        "birthdays": "show_birthdays"
     }
     def __setitem__(self, key, value):
         if not isinstance(value, Record):
@@ -83,10 +117,23 @@ class AddressBook(UserDict):
                     self.data[name].add_phone(phone)
                 return True, "Contact updated successfully"
             else:
-                self.data[name] = Record(name, [Phone(phone) for phone in phones])
+                self.data[name] = Record(name, phones=[Phone(phone) for phone in phones])
                 return True, "Contact added successfully"
         except ValueError as ve:
             return False, "Error when add the record: " + str(ve)
+
+    @params_handler
+    def add_birthday(self, name: str, birthday: str) -> tuple:
+        """Add a birthday to the contact
+                Usage: add-birthday <name> <birthday in format DD.MM.YYYY>"""
+        if name not in self.data:
+            return False, "Contact not found"
+
+        try:
+            self.data[name].add_birthday(birthday)
+            return True, "Birthday added successfully"
+        except ValueError as ve:
+            return False, f"Error when add the birthday: {ve}"
 
     @params_handler
     def find(self, name: str) -> tuple:
@@ -96,6 +143,33 @@ class AddressBook(UserDict):
             return True, self.data.get(name)
         except KeyError:
             return False, "Contact not found"
+
+    @params_handler
+    def show_phone(self, name: str) -> tuple:
+        """Find a contact in the address book by name and show his phones
+                Usage: phone <name>"""
+        try:
+            return True, self.data.get(name).phones
+        except KeyError:
+            return False, "Contact not found"
+
+    @params_handler
+    def show_birthday(self, name: str) -> tuple:
+        """Find a contact in the address book by name and show his birthday
+                Usage: show-birthday <name>"""
+        try:
+            return True, str(self.data.get(name).birthday)
+        except KeyError:
+            return False, "Contact not found"
+
+    @params_handler
+    def show_birthdays(self):
+        """Show all contacts with birthdays in the address book
+                Usage: birthdays"""
+        birthdays = [f"{self.data[c].name}: {self.data[c].birthday}" for c in self.data if self.data[c].days_to_birthday <= 7]
+
+        return (True, "Next contacts have birthdays this week:\n" + "\n".join(birthdays)
+        if birthdays else "No birthdays this week")
 
     @params_handler
     def get_all(self) -> tuple:

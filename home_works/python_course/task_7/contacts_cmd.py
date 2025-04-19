@@ -1,7 +1,7 @@
 import re
 from typing import List
 import cmdlets
-from home_works.task_5.cmd_io import _output_error, _get_input, _output_info
+from home_works.python_course.task_7.cmd_io import output_error, get_input, output_info
 
 
 def parse_input(input_string: str) -> List[str]:
@@ -14,23 +14,23 @@ def execute_command(command: str) -> None:
 
     try:
         if arguments and (arguments[0] == "help" or arguments[0] == "h" or arguments[0] == "?"):
-            _output_info(getattr(cmdlets, _command).__doc__)
+            output_info(getattr(cmdlets, _command).__doc__)
             return
         getattr(cmdlets, _command)(*arguments)
     except AttributeError:
-        _output_error(f"Command '{_command}' not found")
+        output_error(f"Command '{_command}' not found")
     except Exception as e:
-        _output_error(f"Command '{command}' crashed with error: {e}")
-        _output_info("Command help")
-        _output_info(getattr(cmdlets, _command).__doc__)
+        output_error(f"Command '{command}' crashed with error: {e}")
+        output_info("Command help")
+        output_info(getattr(cmdlets, _command).__doc__)
 
 def command_handler() -> None:
     prompt = "Contacts CMD> "
-    _output_info("Welcome to Contacts CMD")
-    _output_info("Type 'help' to get whole list of commands")
+    output_info("Welcome to Contacts CMD")
+    output_info("Type 'help' to get whole list of commands")
 
     while True:
-        command = _get_input(prompt)
+        command = get_input(prompt)
         execute_command(command)
 
 def main() -> None:

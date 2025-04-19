@@ -3,7 +3,7 @@ from collections import UserDict
 from datetime import datetime
 from pathlib import Path
 
-from home_works.task_10.decorators import params_handler
+from home_works.python_course.task_10.decorators import params_handler
 
 
 class Field:

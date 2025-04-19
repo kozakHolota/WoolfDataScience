@@ -1,4 +1,4 @@
-from home_works.task_9.command_handler import CommandHandler
+from home_works.python_course.task_8.command_handler import CommandHandler
 
 
 def main():

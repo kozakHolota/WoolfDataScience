@@ -3,8 +3,8 @@ from typing import Collection
 
 from colorama import Fore, Style, deinit
 
-from home_works.task_9.address_book import AddressBook
-from home_works.task_9.decorators import params_handler
+from home_works.python_course.task_9.address_book import AddressBook
+from home_works.python_course.task_9.decorators import params_handler
 
 
 class CommandHandler:

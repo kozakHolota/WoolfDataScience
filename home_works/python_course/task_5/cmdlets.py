@@ -1,6 +1,6 @@
 import sys
 
-from home_works.task_5.cmd_io import _output_info, _get_input, _deinit_colorama, _output_error
+from home_works.python_course.task_5.cmd_io import _output_info, _get_input, _deinit_colorama, _output_error
 
 _contacts: dict = {}
 

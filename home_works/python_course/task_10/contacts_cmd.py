@@ -2,7 +2,7 @@ from pathlib import Path
 
 import click
 
-from home_works.task_10.command_handler import CommandHandler
+from home_works.python_course.task_10.command_handler import CommandHandler
 
 @click.command()
 @click.option("--contacts-path", default="contacts.pkl", help="Path to contacts file")

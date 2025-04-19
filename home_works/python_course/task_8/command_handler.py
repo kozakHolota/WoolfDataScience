@@ -1,22 +1,19 @@
-import pickle
 import sys
-from pathlib import Path
 from typing import Collection
 
 from colorama import Fore, Style, deinit
 
-from home_works.task_10.address_book import AddressBook
-from home_works.task_10.decorators import params_handler
+from home_works.python_course.task_8.address_book import AddressBook
+from home_works.python_course.task_8.decorators import params_handler
 
 
 class CommandHandler:
     command_map = {
         "help": "help",
     }
-    def __init__(self, prompt: str, address_book_path: Path):
+    def __init__(self, prompt: str):
         self.prompt = prompt
-        address_book_path = Path(address_book_path)
-        self.libs = [AddressBook(address_book_path) if not address_book_path.exists() else pickle.load(address_book_path.open(mode="+rb")), self]
+        self.libs = [AddressBook(), self]
 
     def __get_input(self, prompt: str) -> str:
         return input(Fore.BLUE + prompt + Style.DIM + Style.RESET_ALL)
@@ -47,7 +44,7 @@ class CommandHandler:
     def help(self):
         """Displays all available commands
                             Usage: help"""
-        commands = ["exit", "close", "quit"]
+        commands = ["exit"]
         for lib in self.libs:
             for command in lib.command_map:
                 commands.append(command)
@@ -59,7 +56,7 @@ class CommandHandler:
         command_name = command_list[0].lower()
         command_args = command_list[1:] if len(command_list) > 1 else []
 
-        if command_name in ("exit", "quit", "close"):
+        if command_name == "exit":
             try:
                 self.__exit()
             except (TypeError, ValueError) as e:

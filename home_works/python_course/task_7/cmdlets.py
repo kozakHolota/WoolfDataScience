@@ -2,7 +2,7 @@ import re
 import sys
 from io import StringIO
 
-from home_works.task_7.cmd_io import output_info, get_input, deinit_colorama, output_error, bot_command
+from home_works.python_course.task_7.cmd_io import output_info, get_input, deinit_colorama, output_error, bot_command
 
 _contacts: dict = {}
 
