@@ -1,4 +1,4 @@
 colorama
 click
 numpy
-opencv
+opencv-python
