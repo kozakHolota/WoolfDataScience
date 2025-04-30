@@ -2,3 +2,5 @@ colorama
 click
 numpy
 opencv-python
+matplotlib
+plotly

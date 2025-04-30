@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linear Algebra Cheatsheet</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    h1, h2 { color: #2c3e50; }
+    p { margin: 10px 0; }
+    ul { margin: 0 0 20px 20px; }
+</style>
+</head>
+<body>
+
+<h1>Linear Algebra Cheatsheet</h1>
+
+<h2>Basics</h2>
+<ul>
+    <li><strong>Scalar</strong>: A single number.</li>
+    <li><strong>Vector</strong>: An ordered list of numbers.</li>
+    <li><strong>Matrix</strong>: A rectangular array of numbers.</li>
+    <li><strong>Tensor</strong>: A generalization of vectors and matrices to higher dimensions.</li>
+</ul>
+
+<h2>Operations</h2>
+<ul>
+    <li><strong>Addition</strong>: \( A + B \) (matrices must have the same dimensions).</li>
+    <li><strong>Scalar Multiplication</strong>: \( cA \) (multiply every entry by \( c \)).</li>
+    <li><strong>Matrix Multiplication</strong>: \( (AB)_{ij} = \sum_k A_{ik} B_{kj} \).</li>
+    <li><strong>Transpose</strong>: \( A^T \) (flip rows and columns).</li>
+    <li><strong>Inverse</strong>: \( A^{-1} \) such that \( AA^{-1} = I \) (only if \( A \) is square and invertible).</li>
+</ul>
+
+<h2>Special Matrices</h2>
+<ul>
+    <li><strong>Identity Matrix</strong> \( (I) \): 1's on the diagonal, 0's elsewhere.</li>
+    <li><strong>Diagonal Matrix</strong>: Only diagonal entries are nonzero.</li>
+    <li><strong>Orthogonal Matrix</strong>: \( Q^T Q = I \).</li>
+    <li><strong>Symmetric Matrix</strong>: \( A^T = A \).</li>
+</ul>
+
+<h2>Determinant and Rank</h2>
+<ul>
+    <li><strong>Determinant</strong>: A scalar value representing the scaling factor of the linear transformation described by the matrix.</li>
+    <li><strong>Rank</strong>: The number of linearly independent rows or columns in the matrix.</li>
+</ul>
+
+<h2>Vector Spaces</h2>
+<ul>
+    <li><strong>Span</strong>: Set of all linear combinations of a set of vectors.</li>
+    <li><strong>Basis</strong>: A set of linearly independent vectors that spans the space.</li>
+    <li><strong>Dimension</strong>: The number of vectors in a basis for the space.</li>
+</ul>
+
+<h2>Key Concepts</h2>
+<ul>
+    <li><strong>Linear Independence</strong>: No vector in the set is a linear combination of the others.</li>
+    <li><strong>Null Space</strong>: Set of all solutions to \( Ax = 0 \).</li>
+    <li><strong>Column Space</strong>: Span of the columns of \( A \).</li>
+    <li><strong>Row Space</strong>: Span of the rows of \( A \).</li>
+</ul>
+
+<h2>Eigenvalues and Eigenvectors</h2>
+<ul>
+    <li><strong>Eigenvector</strong>: A vector \( v \) such that \( Av = \lambda v \).</li>
+    <li><strong>Eigenvalue</strong> \( (\lambda) \): The scalar by which an eigenvector is stretched or shrunk.</li>
+</ul>
+
+<h2>Important Theorems</h2>
+<ul>
+    <li><strong>Invertible Matrix Theorem</strong>: A matrix \( A \) is invertible if and only if:
+        <ul>
+            <li>\( \det(A) \neq 0 \)</li>
+            <li>\( A \) has full rank.</li>
+            <li>The null space of \( A \) contains only the zero vector.</li>
+        </ul>
+    </li>
+    <li><strong>Spectral Theorem</strong>: A real symmetric matrix can be diagonalized by an orthogonal matrix.</li>
+</ul>
+
+</body>
+</html>
