@@ -3,4 +3,5 @@ click
 numpy
 opencv-python
 matplotlib
+sympy
 plotly
