@@ -7,3 +7,4 @@ sympy
 plotly
 matplotlib_venn
 networkx
+scipy
