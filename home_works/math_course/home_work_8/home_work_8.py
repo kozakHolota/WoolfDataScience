@@ -1,9 +1,8 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.stats import gamma
-import matplotlib.pyplot as plt
-from scipy import stats
 
 
 def get_dataset_from_gdrive_csv(url: str) -> pd.DataFrame:
@@ -28,7 +27,7 @@ def build_hists(df: pd.DataFrame) -> None:
         plt.show()
 
 def simulate_stock_price(start_price: float, times: int, q_step: float, p_step: float):
-    return start_price + sum((float(gamma.pdf(np.random.choice([q_step, p_step]), a=0.3, scale=1.1)) for _ in range(times)))
+    return start_price + sum((float(np.random.choice(gamma.pdf([q_step, p_step], a=0.3, scale=1.1))) for _ in range(times)))
 
 
 def build_distribution_histogramm_check_normality(data: list, t: int):
