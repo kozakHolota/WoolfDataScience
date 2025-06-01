@@ -26,15 +26,15 @@ def build_hists(df: pd.DataFrame) -> None:
         plt.tight_layout()
         plt.show()
 
-def stock_price_at_time(t, a, b):
+def stock_price_at_time(t):
     s = 0
     for _ in range(t):
-        s += np.random.gamma(a, b)
+        s += np.random.gamma(0.3, 1.1)
     return s
 
-def simulate_n_times(n, t, a, b):
+def simulate_n_times(n, t):
     np.random.seed(42)
-    return [stock_price_at_time(t, a, b) for _ in range(n)]
+    return [stock_price_at_time(t) for _ in range(n)]
 
 def build_distribution_histogramm_check_normality(data: list, t: int):
     # Перевіряємо нормальність вибірки
