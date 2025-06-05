@@ -9,3 +9,6 @@ matplotlib_venn
 networkx
 scipy
 pandas
+kagglehub[pandas-datasets]
+seaborn
+scikit-learn
