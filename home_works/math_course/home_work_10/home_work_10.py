@@ -17,7 +17,7 @@ def draw_error_plot(y_test, y_pred):
     residuals = y_test - y_pred
 
     plt.figure(figsize=(7, 5))
-    sns.scatterplot(x=y_pred, y=residuals)
+    sns.scatterplot(x=y_test, y=residuals)
     plt.axhline(0, color='red', linestyle='--')
     plt.xlabel("Передбачені значення")
     plt.ylabel("Рештки (y_true - y_pred)")
