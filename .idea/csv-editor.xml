@@ -17,6 +17,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/home_works/algorithms_data_structures/homework_5/lviv_transport_nodes.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/home_works/algorithms_data_structures/homework_5/node_paths.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
