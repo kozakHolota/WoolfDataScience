@@ -1,121 +1,205 @@
+import random
+
 import networkx as nx
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 
-class AVLTree(nx.DiGraph):
+class AVLNode:
+    def __init__(self, key):
+        self.key = key
+        self.height = 1
+        self.left = None
+        self.right = None
+
+    def __str__(self, level=0):
+        ret = "\t" * level + str(self.key) + "\n"
+        if self.left:
+            ret += self.left.__str__(level + 1, "L--- ")
+        if self.right:
+            ret += self.right.__str__(level + 1, "R--- ")
+        return ret
+    def _get_graph(self):
+        graph = nx.DiGraph()
+        graph.add_node(self, weight=self.key)
+        if self.left:
+            graph.add_edge(self, self.left, label="left")
+            graph = nx.compose(graph, self.left._get_graph())
+        if self.right:
+            graph.add_edge(self, self.right, label="right")
+            graph = nx.compose(graph, self.right._get_graph())
+        return graph
+
+class AVLTree:
     def __init__(self):
-        super().__init__()
-        self.root = None
+        self.avl_node = None  # root
 
-    def get_weight(self, node):
-        return self.nodes[node]["weight"]
+    def __str__(self):
+        return str(self.avl_node) if self.avl_node else "<empty tree>"
 
-    def add_node(self, node, weight=0):
-        pass
+    @property
+    def graph(self):
+        return self.avl_node._get_graph()
 
-    def add_nodes_from(self, nodes, weight=0):
-        for node in nodes:
-            self.add_node(node, node["weight"])
+    def get_height(self, node):
+        if not node:
+            return 0
+        return node.height
 
-    def rotate_left(self, u):
-        edges = self.edges(u)
+    def get_balance(self, node):
+        if not node:
+            return 0
+        return self.get_height(node.left) - self.get_height(node.right)
 
-    def rotate_right(self, u):
-        edges = self.edges(u)
+    def left_rotate(self, z):
+        y = z.right
+        T2 = y.left
 
-    def cal_height(self, u):
-        return max(self.nodes[u]["height"]) + 1
+        y.left = z
+        z.right = T2
 
-    def add_edge(self, u_of_edge, v_of_edge, **attr):
-        raise ValueError("AVLTree does not support edges")
+        z.height = 1 + max(self.get_height(z.left), self.get_height(z.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
 
-    def add_edges_from(self, ebunch_to_add, **attr):
-        raise ValueError("AVLTree does not support edges")
+        return y
+
+    def right_rotate(self, y):
+        x = y.left
+        T3 = x.right
+
+        x.right = y
+        y.left = T3
+
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
+
+        return x
+
+    def min_value_node(self, node):
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
+
+    # Приватний рекурсивний метод
+    def _insert(self, node, key):
+        if node is None:
+            return AVLNode(key)  # виправлено: повертаємо новий вузол
+
+        if key < node.key:
+            node.left = self._insert(node.left, key)
+        elif key > node.key:
+            node.right = self._insert(node.right, key)
+        else:
+            # Дублікати не вставляємо
+            return node
+
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
+        balance = self.get_balance(node)
+
+        # Ліва-ліва ситуація
+        if balance > 1 and key < node.left.key:
+            return self.right_rotate(node)
+
+        # Права-права ситуація
+        if balance < -1 and key > node.right.key:
+            return self.left_rotate(node)
+
+        # Ліва-права ситуація
+        if balance > 1 and key > node.left.key:
+            node.left = self.left_rotate(node.left)
+            return self.right_rotate(node)
+
+        # Права-ліва ситуація
+        if balance < -1 and key < node.right.key:
+            node.right = self.right_rotate(node.right)
+            return self.left_rotate(node)
+
+        return node
+
+    def insert(self, key):
+        self.avl_node = self._insert(self.avl_node, key)
+
+    def insert_from_list(self, keys):
+        for key in keys:
+            self.insert(key)
+
+    def delete_node(self, key, node=None):
+        if node is None:
+            node = self.avl_node
+        if not node:
+            return node
+
+        if key < node.key:
+            node.left = self.delete_node(key, node.left)
+        elif key > node.key:
+            node.right = self.delete_node(key, node.right)
+        else:
+            if node.left is None:
+                temp = node.right
+                node = None
+                return temp
+            elif node.right is None:
+                temp = node.left
+                node = None
+                return temp
+
+            temp = self.min_value_node(node.right)
+            node.key = temp.key
+            node.right = self.delete_node(temp.key, node.right)
+
+        if node is None:
+            return node
+
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
+        balance = self.get_balance(node)
+
+        # Ліва-ліва
+        if balance > 1 and self.get_balance(node.left) >= 0:
+            return self.right_rotate(node)
+
+        # Ліва-права
+        if balance > 1 and self.get_balance(node.left) < 0:
+            node.left = self.left_rotate(node.left)
+            return self.right_rotate(node)
+
+        # Права-права
+        if balance < -1 and self.get_balance(node.right) <= 0:
+            return self.left_rotate(node)
+
+        # Права-ліва
+        if balance < -1 and self.get_balance(node.right) > 0:
+            node.right = self.right_rotate(node.right)
+            return self.left_rotate(node)
+
+        return node  # виправлено: повертати node
+
+    def draw(self):
+        if not self.avl_node:
+            print("Empty tree")
+            return
+
+        G = self.avl_node._get_graph()
+        pos = nx.spring_layout(G)
+
+        plt.figure(figsize=(10, 8))
+        nx.draw(G, pos, with_labels=True, labels={node: node.key for node in G.nodes()},
+                node_color='lightblue', node_size=500, arrowsize=20)
+
+        edge_labels = nx.get_edge_attributes(G, 'label')
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+
+        plt.title("AVL Tree Visualization")
+        plt.axis('off')
+        plt.show()
 
 
-def draw_tree(tree, root=None, x_spacing=1.5, y_spacing=1):
-    """
-    Draws a tree structure using NetworkX and a custom hierarchical layout.
+def generate_random_avl_tree(n: int=random.randint(1, 20), max_val: int=random.randint(1, 10)):
+    avl_tree = AVLTree()
+    avl_tree.insert_from_list(random.choices(range(max_val), k=n))
+    return avl_tree
 
-    :param tree_edges: List of edges in the tree (e.g. [(parent, child), ...]).
-    :param root: Root of the tree; if None, it's determined as the node with no incoming edges.
-    :param x_spacing: Horizontal spacing between nodes.
-    :param y_spacing: Vertical spacing between levels.
-    """
-
-    if root is None:
-        # Automatically find the root (a node with no incoming edges)
-        root = [n for n in tree.nodes if tree.in_degree(n) == 0][0]
-
-    # Generate positions for the nodes using a custom layout
-    pos = hierarchical_position(tree, root, x_spacing, y_spacing)
-
-    # Draw the tree
-    plt.figure(figsize=(10, 8))
-    nx.draw(
-        tree,
-        pos,
-        with_labels=True,
-        node_size=3000,
-        node_color="lightblue",
-        font_size=10,
-        font_weight="bold"
-    )
-
-    # Add edge labels if needed (e.g., "left" and "right")
-    edge_labels = nx.get_edge_attributes(tree, "label")  # Fetch edge labels, if any
-    nx.draw_networkx_edge_labels(tree, pos, edge_labels=edge_labels)
-
-    # Display
-    plt.title("AVL Tree Visualization")
-    plt.show()
-
-
-def hierarchical_position(graph, root, x_spacing=1, y_spacing=1):
-    """
-    Produces a hierarchical layout for a directed tree structure using depth-based positioning.
-
-    :param graph: The NetworkX graph (directed).
-    :param root: Root of the tree.
-    :param x_spacing: Horizontal distance between sibling nodes.
-    :param y_spacing: Vertical distance between levels.
-    :return: A position dictionary for all nodes.
-    """
-    pos = {}  # Dictionary to store node positions
-    depths = calculate_depths(graph, root)  # Helper to calculate node depths
-
-    def assign_positions(node, current_x, depth):
-        """
-        Recursively assign positions to all nodes.
-        """
-        pos[node] = (current_x, -depth * y_spacing)  # Position the node
-        children = list(graph.successors(node))
-
-        if children:
-            mid = len(children) // 2  # Determine how to offset child positions
-            for i, child in enumerate(children):
-                assign_positions(
-                    child, current_x + (i - mid) * x_spacing, depth + 1
-                )
-
-    assign_positions(root, 0, 0)
-    return pos
-
-
-def calculate_depths(graph, root):
-    """
-    Helper function to compute the depths of all nodes in a tree.
-
-    :param graph: The NetworkX graph (directed).
-    :param root: Root of the tree.
-    :return: Dictionary mapping each node to its depth.
-    """
-    depths = {}
-
-    def dfs(node, depth):
-        depths[node] = depth
-        for child in graph.successors(node):
-            dfs(child, depth + 1)
-
-    dfs(root, 0)
-    return depths
+if __name__ == "__main__":
+    avl_tree = AVLTree()
+    avl_tree.insert_from_list([1, 45, 6, 122, 11, 18, 0, 9, 55, 13, 14, 112])
+    print(avl_tree)
+    avl_tree.draw()

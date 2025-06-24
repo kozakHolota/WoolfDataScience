@@ -13,3 +13,4 @@ kagglehub[pandas-datasets]
 seaborn
 scikit-learn
 random_word
+pydot
