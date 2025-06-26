@@ -42,8 +42,14 @@ def draw_graph(wires_heap_list: list, title: str):
     plt.axis('off')
     plt.show()
 
+def get_wires_connectors_count(wires_heap_list: list):
+    graph = get_heap_graph(wires_heap_list)
+    return len({w[0] for w in graph.edges()})
+
 
 if __name__ == "__main__":
     wires = random.choices(range(1, 100), k=random.randint(1, 10))
     wires_connetion = get_connect_wires_heap(wires)
+    print(f"Список кабелів (по довжинах): {wires}")
+    print(f"Кількість зґєднувачів, необхідна для зʼєднання всіх кабелів: {get_wires_connectors_count(wires_connetion)}")
     draw_graph(wires_connetion, title="Графік зєднання вибраних мережевих кабелів")
