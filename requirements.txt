@@ -14,3 +14,4 @@ seaborn
 scikit-learn
 random_word
 pydot
+pulp
