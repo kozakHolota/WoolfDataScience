@@ -1,6 +1,14 @@
 import turtle
 from math import sqrt
 
+
+def get_depth() -> int:
+    _input = input("Яку глибину Піфагорового Дерева бажаєш? ")
+    if not _input.isdigit():
+        print("Нвірий ввід. Введи нормальне число")
+        return get_depth()
+    return int(_input)
+
 def draw_square(t, x, y, size, angle):
     t.penup()
     t.goto(x, y)
@@ -51,7 +59,7 @@ if __name__ == "__main__":
         x=-10,
         y=-200,
         angle=0,
-        depth=25,
+        depth=get_depth(),
         a=45,
         b=45
     )
