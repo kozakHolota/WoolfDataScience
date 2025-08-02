@@ -15,3 +15,9 @@ scikit-learn
 random_word
 pydot
 pulp
+
+# Code quality and linting tools
+pylint
+mypy
+flake8
+ruff
