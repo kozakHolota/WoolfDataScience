@@ -15,6 +15,10 @@ scikit-learn
 random_word
 pydot
 pulp
+SQLAlchemy
+psycopg2-binary
+PyMongo
+Faker
 
 # Code quality and linting tools
 pylint
