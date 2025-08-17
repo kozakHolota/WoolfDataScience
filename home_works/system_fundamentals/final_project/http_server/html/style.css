@@ -1,0 +1,526 @@
+/* style.css */
+:root {
+  --bg: #0b1020;
+  --panel: #121a2f;
+  --panel-2: #0e1630;
+  --text: #e6eaf2;
+  --muted: #a8b0c2;
+  --brand: #4f8cff;
+  --brand-2: #7aa6ff;
+  --accent: #22d3ee;
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --radius: 14px;
+  --topbar-h: 64px; /* базова висота верхньої панелі */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 80% -20%, rgba(79, 140, 255, 0.15), transparent 60%),
+    radial-gradient(900px 600px at -10% 10%, rgba(34, 211, 238, 0.14), transparent 50%),
+    var(--bg);
+  line-height: 1.6;
+}
+
+.container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+}
+
+/* Topbar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--panel) 80%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--topbar-h);
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.brand__logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 6px 14px rgba(79, 140, 255, 0.25);
+}
+
+.brand__name {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav__link {
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.nav__link:hover {
+  background: var(--panel-2);
+  border-color: var(--border);
+}
+
+.nav__link.is-active {
+  background: linear-gradient(180deg, rgba(79, 140, 255, 0.18), rgba(79, 140, 255, 0.08));
+  border-color: color-mix(in oklab, var(--brand) 40%, var(--border));
+}
+
+/* Mobile toggle */
+.nav__toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-2);
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-direction: column;
+}
+
+.nav__toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+}
+
+/* Content */
+.content {
+  padding: 28px 0 40px;
+}
+
+.card {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--panel) 92%, transparent), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.card h1 {
+  margin: 0 0 10px;
+  letter-spacing: 0.2px;
+}
+
+.card p {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+/* Buttons */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-right: 8px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--border), white 6%);
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--brand) 20%, transparent), transparent 70%);
+  border-color: color-mix(in oklab, var(--brand) 35%, var(--border));
+  box-shadow: 0 6px 16px rgba(79, 140, 255, 0.25);
+}
+
+/* Footer */
+.footer {
+  margin-top: 36px;
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel) 80%, transparent);
+}
+
+.footer .container {
+  padding: 16px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .nav {
+    position: absolute;
+    top: 64px;
+    right: 0;
+    left: 0;
+    background: color-mix(in oklab, var(--panel) 95%, transparent);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    padding: 10px;
+    display: none;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav__toggle {
+    display: inline-flex;
+  }
+}
+
+/* home_works/system_fundamentals/final_project/html/style.css */
+.message-composer {
+  --mc-radius: 14px;
+  --mc-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --mc-shadow-focus: 0 10px 28px rgba(58, 108, 217, 0.25);
+  --mc-border: 1px solid rgba(0, 0, 0, 0.08);
+  --mc-bg: #fff;
+  --mc-accent: #3a6cd9;
+  --mc-accent-2: #7a5cf5;
+  --mc-muted: #6b7280;
+  --mc-text: #0f172a;
+  --mc-success: #10b981;
+
+  max-width: 720px;
+  margin: 12px auto;
+  padding: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95)) padding-box,
+    radial-gradient(120% 120% at 0% 0%, rgba(122, 92, 245, 0.18), rgba(58, 108, 217, 0.12)) border-box;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--mc-radius);
+  box-shadow: var(--mc-shadow);
+  backdrop-filter: blur(6px);
+}
+
+.mc-label {
+  display: block;
+  font-weight: 600;
+  color: var(--mc-text);
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.mc-textarea-wrap {
+  position: relative;
+  background: var(--mc-bg);
+  border-radius: calc(var(--mc-radius) - 4px);
+  padding: 10px;
+  border: var(--mc-border);
+  transition: box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.mc-textarea-wrap:focus-within {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px transparent, var(--mc-shadow-focus);
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    conic-gradient(from 180deg at 50% 50%, var(--mc-accent), var(--mc-accent-2), var(--mc-accent)) border-box;
+  border: 1px solid transparent;
+}
+
+.mc-textarea {
+  width: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--mc-text);
+  font: 500 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  padding: 6px 8px 8px 8px;
+  caret-color: var(--mc-accent);
+}
+
+.mc-textarea::placeholder {
+  color: #9aa3b2;
+}
+
+.mc-help {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--mc-muted);
+  padding-left: 8px;
+}
+
+.mc-footer {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mc-counter {
+  font-size: 12px;
+  color: var(--mc-muted);
+  padding: 6px 8px;
+  background: rgba(58, 108, 217, 0.06);
+  border-radius: 999px;
+}
+
+.mc-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.mc-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.mc-btn:active {
+  transform: translateY(1px);
+}
+
+.mc-btn-primary {
+  color: white;
+  background: linear-gradient(135deg, var(--mc-accent), var(--mc-accent-2));
+  box-shadow: 0 8px 18px rgba(58, 108, 217, 0.28);
+}
+
+.mc-btn-primary:hover {
+  box-shadow: 0 10px 22px rgba(58, 108, 217, 0.34);
+}
+
+.mc-btn-ghost {
+  color: var(--mc-accent);
+  background: #f3f6ff;
+  border-color: rgba(58, 108, 217, 0.2);
+}
+
+.mc-btn-ghost:hover {
+  background: #e9efff;
+  border-color: rgba(58, 108, 217, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  .message-composer {
+    --mc-bg: #0b1220;
+    --mc-text: #e5e7eb;
+    --mc-muted: #9aa3b2;
+    background:
+      linear-gradient(180deg, rgba(12, 18, 32, 0.9), rgba(12, 18, 32, 0.95)) padding-box,
+      radial-gradient(120% 120% at 0% 0%, rgba(122, 92, 245, 0.25), rgba(58, 108, 217, 0.2)) border-box;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .mc-textarea::placeholder {
+    color: #7c8799;
+  }
+
+  .mc-counter {
+    background: rgba(58, 108, 217, 0.14);
+  }
+
+  .mc-btn-ghost {
+    background: rgba(58, 108, 217, 0.12);
+  }
+
+  .mc-btn-ghost:hover {
+    background: rgba(58, 108, 217, 0.18);
+  }
+}
+
+.error-page {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  min-height: 40vh;
+  text-align: center;
+}
+
+.error-title {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.error-desc {
+  margin: 0;
+  color: #555;
+}
+
+.error-icon-wrap {
+  display: grid;
+  place-items: center;
+}
+
+.error-icon {
+  display: block;
+}
+
+.login-field {
+  margin-bottom: 10px;
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.login-input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 360px;
+  font-size: 1rem;
+}
+
+.login-input.input-error {
+  border-color: #b00020;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(176, 0, 32, 0.15);
+}
+
+.login-alert {
+  display: none;
+  color: #b00020;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  margin-top: 6px;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-alert img {
+  width: 18px;
+  height: 18px;
+}
+
+.login-actions {
+  margin-top: 10px;
+}
+
+.login-submit {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #1a73e8;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-submit:hover {
+  background: #1666cc;
+}
+
+/* Узгодження висоти й вирівнювання поля пошуку та кнопки */
+:root {
+  --search-h: calc(var(--topbar-h) * 0.35); /* 35% від висоти верхньої панелі */
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* ... інший наявний стиль може бути у зовнішньому CSS ... */
+}
+
+.topbar__search {
+  display: flex;
+  align-items: stretch; /* тягнемо input і кнопку по одній висоті */
+  gap: 0;
+  flex: 1 1 360px; /* дозволяємо займати доступний простір */
+  max-width: 520px;
+  margin-left: auto; /* штовхаємо форму праворуч, залишаючи бренд/навігацію зліва */
+}
+
+.topbar__search-input {
+  height: var(--search-h);
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #d0d5dd;
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+  min-width: 0; /* щоб правильно стискалось у флекс-контейнрі */
+  font: inherit;
+  font-size: 16px; /* зручніший для читання розмір тексту */
+}
+
+.topbar__search-input:focus {
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.topbar__search-btn {
+  height: var(--search-h);
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #d0d5dd;
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+  background: #f8fafc;
+  color: #1f2937; /* темніший колір для більш виразної лупи */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.topbar__search-btn:hover {
+  background: #eef2f7;
+}
+
+.topbar__search-btn svg {
+  width: 22px;
+  height: 22px;
+  pointer-events: none; /* клікабельність по всій кнопці */
+}
+
+/* Адаптивність: на дуже вузьких екранах звужуємо форму */
+@media (max-width: 640px) {
+  .topbar__search {
+    flex: 1 1 200px;
+    max-width: none;
+  }
+}

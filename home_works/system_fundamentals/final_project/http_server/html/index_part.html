@@ -1,0 +1,6 @@
+<h1>Вітаю, $username</h1>
+<p>Невеликий веб проєкт для висилання повідомлень у <b>Mongo DB</b></p>
+<script>
+  // Встановлюємо cookie з ключем "username" і значенням "${username}"
+  document.cookie = "username=" + encodeURIComponent("${username}") + "; path=/; SameSite=Lax";
+</script>

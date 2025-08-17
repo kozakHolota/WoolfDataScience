@@ -1,0 +1,77 @@
+<form id="loginForm" action="/login" method="POST" novalidate>
+  <div class="login-field">
+    <label for="username" class="login-label">Введіть ваше псевдо для репрезентації себе</label>
+    <input type="text" id="username" name="username" class="login-input" autocomplete="username" />
+    <div id="usernameAlert" class="login-alert" aria-live="polite">
+      <img src="home_works/system_fundamentals/final_project/http_server/img/alert.png" alt="Увага" />
+      <span>Ви маєте ввести своє псевдо</span>
+    </div>
+  </div>
+
+  <div class="login-actions">
+    <button type="submit" class="login-submit">Зареєструватися</button>
+  </div>
+</form>
+
+<script type="text/javascript">
+  (function () {
+    const form = document.getElementById('loginForm');
+    const input = document.getElementById('username');
+    const alertBox = document.getElementById('usernameAlert');
+
+    function showAlert() {
+      alertBox.style.display = 'flex';
+      input.classList.add('input-error');
+    }
+
+    function hideAlert() {
+      alertBox.style.display = 'none';
+      input.classList.remove('input-error');
+    }
+
+    input.addEventListener('input', () => {
+      if (input.value.trim() !== '') hideAlert();
+    });
+
+    form.addEventListener('submit', (e) => {
+      const value = input.value.trim();
+      if (!value) {
+        e.preventDefault();
+        showAlert();
+        input.focus();
+        return;
+      }
+      // ... existing code ...
+      e.preventDefault(); // Відміняємо стандартний submit (який відправляє multipart/form-data)
+      hideAlert();
+
+      try {
+        const resp = await fetch(form.action || '/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'text/html'
+          },
+          body: JSON.stringify({ username: value })
+        });
+
+        const text = await resp.text();
+
+        if (!resp.ok) {
+          // Просте відображення помилки з сервера
+          showAlert();
+          alertBox.querySelector('span').textContent = text || 'Помилка під час входу';
+          return;
+        }
+
+        // Замінюємо поточну сторінку отриманим HTML
+        document.open();
+        document.write(text);
+        document.close();
+      } catch (err) {
+        showAlert();
+        alertBox.querySelector('span').textContent = 'Мережева помилка. Спробуйте ще раз.';
+      }
+    });
+  })();
+</script>

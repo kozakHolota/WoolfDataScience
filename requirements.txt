@@ -1,9 +1,12 @@
+asyncio
 colorama
-click
 numpy
+click
+jax
 opencv-python
 matplotlib
 sympy
+aiohttp
 plotly
 matplotlib_venn
 networkx
@@ -11,6 +14,7 @@ scipy
 pandas
 kagglehub[pandas-datasets]
 seaborn
+uvicorn
 scikit-learn
 random_word
 pydot
@@ -19,6 +23,7 @@ SQLAlchemy
 psycopg2-binary
 PyMongo
 Faker
+websockets
 
 # Code quality and linting tools
 pylint

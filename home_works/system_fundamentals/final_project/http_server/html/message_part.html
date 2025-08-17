@@ -1,0 +1,169 @@
+<div class="message-composer" role="form" aria-label="Надіслати повідомлення">
+  <label for="message-input" class="mc-label">Повідомлення</label>
+  <input type="hidden" id="username" name="username" value="">
+
+  <div id="message-status" class="mc-status" aria-live="polite" style="display:none;"></div>
+
+  <div class="mc-textarea-wrap">
+    <textarea
+      id="message-input"
+      class="mc-textarea"
+      name="message"
+      placeholder="Введіть ваше повідомлення…"
+      rows="3"
+      maxlength="1000"
+      aria-describedby="message-help message-counter"
+      style="color:#000; caret-color:#000;"
+    ></textarea>
+
+    <div class="mc-help" id="message-help">
+      Підтримується багаторядковий ввід. Поле автоматично розширюється.
+    </div>
+  </div>
+
+  <div class="mc-footer">
+    <div class="mc-counter" id="message-counter">0 / 1000</div>
+    <div class="mc-actions">
+      <button type="button" class="mc-btn mc-btn-primary" id="send-btn" aria-label="Вислати повідомлення">Вислати</button>
+      <button type="button" class="mc-btn mc-btn-ghost" id="clear-btn" aria-label="Очистити поле">Очистити</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    const ta = document.getElementById('message-input');
+    const counter = document.getElementById('message-counter');
+    const sendBtn = document.getElementById('send-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const statusBox = document.getElementById('message-status');
+    const max = Number(ta.getAttribute('maxlength')) || 0;
+    const usernameInput = document.getElementById('username');
+
+    // Отримати значення cookie за ключем
+    function getCookie(name) {
+      return document.cookie
+        .split('; ')
+        .reduce((acc, pair) => {
+          const idx = pair.indexOf('=');
+          if (idx === -1) return acc;
+          const k = pair.slice(0, idx);
+          const v = pair.slice(idx + 1);
+          return k === name ? decodeURIComponent(v) : acc;
+        }, '');
+    }
+
+    // Встановлюємо значення прихованого поля з cookie "username"
+    if (usernameInput) {
+      usernameInput.value = getCookie('username') || '';
+    }
+
+    const IMG_SUCCESS = '/img/success.png';
+    const IMG_ALERT = '/img/alert.png';
+
+    function showStatus(kind, text) {
+      const src = kind === 'success' ? IMG_SUCCESS : IMG_ALERT;
+      statusBox.style.display = 'flex';
+      statusBox.style.alignItems = 'center';
+      statusBox.style.gap = '8px';
+      statusBox.innerHTML = '<img alt="" width="18" height="18" src="' + src + '"><span>' + text + '</span>';
+    }
+
+    function clearStatus() {
+      statusBox.style.display = 'none';
+      statusBox.innerHTML = '';
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 280) + 'px';
+    }
+
+    function updateCounter() {
+      const len = ta.value.length;
+      counter.textContent = max ? `${len} / ${max}` : `${len}`;
+      counter.style.color = len >= max ? '#ef4444' : '';
+    }
+
+    async function sendMessage(value) {
+      // Блокуємо кнопку під час відправки
+      sendBtn.disabled = true;
+      const prevLabel = sendBtn.textContent;
+      sendBtn.textContent = 'Висилання…';
+      try {
+        const res = await fetch('/send_message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: value, username: usernameInput ? usernameInput.value : '' }),
+        });
+
+        // Обробка статус-кодів за вимогами
+        if (res.status === 200) {
+          // Успіх
+          ta.value = '';
+          autoResize(ta);
+          updateCounter();
+          showStatus('success', 'Ваше повідомлення успішно відіслано');
+          emitSend(value);
+        } else if (res.status === 400) {
+          showStatus('alert', 'Неірний формат повідомлення!');
+        } else if (res.status === 500) {
+          showStatus('alert', 'Серверна помилка');
+        } else {
+          // Невідомий статус — узагальнене попередження
+          showStatus('alert', 'Сталася помилка під час відправки');
+        }
+      } catch (err) {
+        console.error('Помилка відправки повідомлення:', err);
+        showStatus('alert', 'Сталася помилка мережі');
+      } finally {
+        sendBtn.textContent = prevLabel;
+        sendBtn.disabled = false;
+        ta.focus();
+      }
+    }
+
+    function emitSend(value) {
+      // Кидаємо кастомну подію, щоб можна було підписатись із зовнішнього коду
+      const ev = new CustomEvent('message:send', { detail: { value } });
+      ta.dispatchEvent(ev);
+    }
+
+    // Ініціалізація
+    autoResize(ta);
+    updateCounter();
+
+    ta.addEventListener('input', () => {
+      autoResize(ta);
+      updateCounter();
+      // При зміні тексту ховаємо попередній статус
+      clearStatus();
+    });
+
+    // Ctrl/Cmd + Enter для відправки
+    ta.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (ta.value.trim().length) {
+          sendMessage(ta.value.trim());
+        }
+      }
+    });
+
+    sendBtn.addEventListener('click', () => {
+      const val = ta.value.trim();
+      if (!val.length) {
+        showStatus('alert', 'Введіть повідомлення');
+        return;
+      }
+      sendMessage(val);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      ta.value = '';
+      autoResize(ta);
+      updateCounter();
+      clearStatus();
+      ta.focus();
+    });
+  })();
+</script>

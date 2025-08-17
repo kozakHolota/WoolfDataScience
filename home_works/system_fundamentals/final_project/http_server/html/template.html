@@ -1,0 +1,127 @@
+<!-- template.html -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$title • Final Project</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/html/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="/">
+        <img class="brand__logo" src="/img/logo.png" alt="Logo" />
+        <span class="brand__name">Final Project</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link is-active" href="/home">Home</a>
+        <a class="nav__link" href="/messages">Messages</a>
+      </nav>
+      <form class="topbar__search" action="/search_messages" method="GET" role="search" aria-label="Пошук повідомлень">
+        <input
+          type="search"
+          name="q"
+          class="topbar__search-input"
+          placeholder="Пошук повідомлень"
+          aria-label="Поле пошуку повідомлень"
+        />
+        <button
+          class="topbar__search-btn"
+          type="submit"
+          aria-label="Шукати повідомлення"
+          title="Шукати"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </form>
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container content">
+    <section class="card">
+      $content
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© <span id="year"></span> Final Project</p>
+    </div>
+  </footer>
+
+  <script>
+    // Невеликий JS для мобільного меню та року в копірайті
+    const toggle = document.querySelector('.nav__toggle');
+    const nav = document.querySelector('.nav');
+    toggle?.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('open');
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Додаємо username з cookie до Home-посилання як query-параметр
+    (function () {
+      function getCookie(name) {
+        return document.cookie
+          .split('; ')
+          .find((row) => row.startsWith(name + '='))
+          ?.split('=')[1];
+      }
+
+      const raw = getCookie('username');
+      if (!raw) return;
+
+      // Декодуємо значення з cookie та додаємо до URL як параметр (URL сам закодує значення)
+      let username;
+      try {
+        username = decodeURIComponent(raw);
+      } catch {
+        username = raw;
+      }
+
+      const homeLink = document.querySelector('a.nav__link.is-active[href="/home"]');
+      if (!homeLink) return;
+
+      const url = new URL(homeLink.getAttribute('href'), window.location.origin);
+      url.searchParams.set('username', username);
+      homeLink.setAttribute('href', url.pathname + url.search);
+    })();
+
+    // ... existing code ...
+    // Ховаємо пошук, Home і Messages, лише якщо #username є текстовим input-полем
+    (function () {
+      const usernameField = document.getElementById('username');
+      const isTextInput =
+        usernameField instanceof HTMLInputElement &&
+        (usernameField.type === 'text' || !usernameField.getAttribute('type'));
+      if (!isTextInput) return;
+
+      const searchForm = document.querySelector('.topbar__search');
+      if (searchForm) {
+        searchForm.setAttribute('hidden', '');
+        searchForm.setAttribute('aria-hidden', 'true');
+        searchForm.style.display = 'none';
+      }
+
+      document.querySelectorAll('.nav__link').forEach((a) => {
+        const href = a.getAttribute('href');
+        if (href === '/' || href === '/messages') {
+          a.setAttribute('hidden', '');
+          a.setAttribute('aria-hidden', 'true');
+          a.style.display = 'none';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+services:
+  http_server:
+    build:
+      context: ./http_server
+      dockerfile: Dockerfile
+    container_name: http_server
+    depends_on:
+      - socket_server
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  socket_server:
+    build:
+      context: ./socket_server
+      dockerfile: Dockerfile
+    container_name: socket_server
+    environment:
+      MONGO_URL: mongodb://mongo:27017/dummy_messages
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    command: ["python", "-u", "server.py"]
+    ports:
+      - "5001:5001"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket,sys; s=socket.socket(); s.settimeout(1); sys.exit(0) if s.connect_ex((\"localhost\",26079))==0 else sys.exit(1)'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo_data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'db.runCommand({ ping: 1 })' | mongosh --quiet mongodb://localhost:27017/admin"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+volumes:
+  mongo_data:

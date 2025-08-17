@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "8001:8000"
+      - "26079:26079"
     depends_on:
       - migrate
       - redis
