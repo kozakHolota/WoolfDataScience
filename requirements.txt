@@ -10,6 +10,7 @@ aiohttp
 plotly
 matplotlib_venn
 networkx
+nltk
 scipy
 pandas
 kagglehub[pandas-datasets]
