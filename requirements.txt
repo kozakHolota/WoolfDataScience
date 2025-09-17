@@ -3,6 +3,8 @@ colorama
 numpy
 click
 jax
+pygame
+gymnasium
 opencv-python
 matplotlib
 sympy
