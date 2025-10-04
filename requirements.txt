@@ -6,6 +6,7 @@ jax
 pygame
 gymnasium
 opencv-python
+librosa
 matplotlib
 sympy
 aiohttp
@@ -26,6 +27,7 @@ SQLAlchemy
 psycopg2-binary
 PyMongo
 Faker
+ydata-profiling
 websockets
 
 # Code quality and linting tools
