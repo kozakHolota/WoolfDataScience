@@ -16,6 +16,10 @@ networkx
 nltk
 scipy
 pandas
+ipywidgets>=7.6
+jupyterlab>=3
+plotly==5.20.0
+px
 kagglehub[pandas-datasets]
 seaborn
 uvicorn
