@@ -1,5 +1,6 @@
 asyncio
 colorama
+category_encoders
 numpy
 click
 jax
@@ -18,7 +19,6 @@ scipy
 pandas
 ipywidgets>=7.6
 jupyterlab>=3
-plotly==5.20.0
 px
 kagglehub[pandas-datasets]
 seaborn
@@ -34,7 +34,9 @@ PyMongo
 Faker
 ydata-profiling
 websockets
-
+plotly
+prophet
+imbalanced-learn
 # Code quality and linting tools
 pylint
 mypy
