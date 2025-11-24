@@ -117,9 +117,9 @@ async def search_messages(data):
       </caption>
       <thead>
         <tr>
-          <th scope="col" data-type="date" tabindex="0" aria-sort="none">Створено</th>
-          <th scope="col" data-type="string" tabindex="0" aria-sort="none">Користувач</th>
-          <th scope="col" data-type="string" tabindex="0" aria-sort="none">Повідомлення</th>
+          <th scope="col_name" data-type="date" tabindex="0" aria-sort="none">Створено</th>
+          <th scope="col_name" data-type="string" tabindex="0" aria-sort="none">Користувач</th>
+          <th scope="col_name" data-type="string" tabindex="0" aria-sort="none">Повідомлення</th>
         </tr>
       </thead>
       <tbody>
@@ -182,7 +182,7 @@ async def search_messages(data):
         });
       };
 
-      const ths = Array.from(table.tHead.querySelectorAll('th[scope="col"]'));
+      const ths = Array.from(table.tHead.querySelectorAll('th[scope="col_name"]'));
       if (!ths.length) return;
 
       const onActivate = (th) => {
@@ -215,14 +215,14 @@ async def search_messages(data):
       };
 
       table.tHead.addEventListener('click', (e) => {
-        const th = e.target.closest('th[scope="col"]');
+        const th = e.target.closest('th[scope="col_name"]');
         if (!th || !table.tHead.contains(th)) return;
         onActivate(th);
       });
 
       table.tHead.addEventListener('keydown', (e) => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
-        const th = e.target.closest('th[scope="col"]');
+        const th = e.target.closest('th[scope="col_name"]');
         if (!th || !table.tHead.contains(th)) return;
         e.preventDefault();
         onActivate(th);

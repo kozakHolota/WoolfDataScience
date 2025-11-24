@@ -101,7 +101,7 @@ def show_outliers(values, z_thresh=3.0):
 def remove_outliers(data: pd.DataFrame, column_name: str, z_thresh: float = 3.0) -> pd.DataFrame:
     """
     Видаляє викиди за однією колонкою на основі Z-оцінки.
-    Рядки, де |Z(col)| > z_thresh, будуть видалені.
+    Рядки, де |Z(col_name)| > z_thresh, будуть видалені.
 
     Parameters:
         data: вхідний DataFrame
