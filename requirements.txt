@@ -1,5 +1,6 @@
 aiohttp
 asyncio
+catboost
 category_encoders
 click
 colorama
@@ -14,10 +15,14 @@ kneed
 librosa
 matplotlib
 matplotlib_venn
+imbalanced-learn
+lightgbm
+mlflow
 networkx
 nltk
 numpy
 opencv-python
+optuna
 pandas
 plotly
 plotly
@@ -39,6 +44,7 @@ uvicorn
 websockets
 yellowbrick
 ydata-profiling
+xgboost
 # Code quality and linting tools
 pylint
 mypy
