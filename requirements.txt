@@ -31,6 +31,9 @@ px
 pygame
 pydot
 pygad
+torch
+torchvision
+torchaudio
 pulp
 PyMongo
 psycopg2-binary
