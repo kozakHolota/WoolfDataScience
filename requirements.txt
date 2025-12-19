@@ -19,6 +19,7 @@ imbalanced-learn
 lightgbm
 mlflow
 networkx
+notebook
 nltk
 numpy
 opencv-python
@@ -31,9 +32,9 @@ px
 pygame
 pydot
 pygad
-torch
-torchvision
-torchaudio
+# torch
+# torchvision
+# torchaudio
 pulp
 PyMongo
 psycopg2-binary
