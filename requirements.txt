@@ -44,7 +44,8 @@ scipy
 seaborn
 SQLAlchemy
 sympy
-uvicorn
+ray[tune]
+ultralytics
 websockets
 yellowbrick
 ydata-profiling
