@@ -6,6 +6,7 @@ click
 colorama
 Faker
 gymnasium
+gensim
 imbalanced-learn
 ipywidgets>=7.6
 jax
@@ -42,6 +43,7 @@ random_word
 scikit-learn
 scipy
 seaborn
+spacy
 SQLAlchemy
 sympy
 ray[tune]
