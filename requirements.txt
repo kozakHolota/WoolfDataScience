@@ -1,27 +1,35 @@
+accelerate
 aiohttp
 asyncio
 catboost
 category_encoders
 click
 colorama
+datasets
+evaluate
 Faker
-gymnasium
+# Code quality and linting tools
+flake8
 gensim
+gymnasium
+huggingface
+imbalanced-learn
 imbalanced-learn
 ipywidgets>=7.6
 jax
 jupyterlab>=3
+kaggle
 kagglehub[pandas-datasets]
 kneed
 librosa
+lightgbm
 matplotlib
 matplotlib_venn
-imbalanced-learn
-lightgbm
 mlflow
+mypy
 networkx
-notebook
 nltk
+notebook
 numpy
 opencv-python
 optuna
@@ -29,31 +37,31 @@ pandas
 plotly
 plotly
 prophet
+psycopg2-binary
+pulp
 px
-pygame
 pydot
 pygad
-# torch
-# torchvision
-# torchaudio
-pulp
+pygame
 PyMongo
-psycopg2-binary
+pylint
 random_word
+ray[tune]
+ruff
 scikit-learn
 scipy
 seaborn
+sentencepiece
 spacy
 SQLAlchemy
 sympy
-ray[tune]
+# torch
+# torchaudio
+# torchvision
+torchtext
+transformers
 ultralytics
 websockets
-yellowbrick
-ydata-profiling
 xgboost
-# Code quality and linting tools
-pylint
-mypy
-flake8
-ruff
+ydata-profiling
+yellowbrick
