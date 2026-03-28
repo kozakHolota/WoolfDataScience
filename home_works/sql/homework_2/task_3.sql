@@ -1,0 +1,1 @@
+SELECT DISTINCT `order`.product_id FROM `order`;
