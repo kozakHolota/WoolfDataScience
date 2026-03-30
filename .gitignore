@@ -481,5 +481,5 @@ fabric.properties
 
 
 # Ignore MongoDB local data directories
-.mongodb/
-/**/.mongodb/
+.mongodb/**
+/**/.mongodb/**
