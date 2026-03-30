@@ -485,3 +485,19 @@ fabric.properties
 /**/.mongodb/**
 # Ignore final_project Mongo data dir
 **/.mongodb/
+
+**/mlflow
+
+# Ignore MLflow run artifacts
+**/run/mlflow/
+**/runs/mlflow/
+
+# Ignore all runs directories
+**/runs/
+
+# Ignore all mongo_data directories
+**/mongo_data/
+
+# Ignore IDE settings directories
+.idea/
+**/.idea/
