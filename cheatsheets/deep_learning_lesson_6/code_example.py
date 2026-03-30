@@ -40,7 +40,7 @@ data_transforms = {
     ]),
 }
 
-# Datasets + Dataloaders
+# PdDatasets + Dataloaders
 image_datasets = {
     x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
     for x in ["train", "val"]

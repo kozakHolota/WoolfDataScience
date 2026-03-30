@@ -1,0 +1,10 @@
+datasets>=2.14.0
+torch>=2.0.0
+torchtext>=0.15.0
+spacy>=3.7.0
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+pl-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/pl_core_news_sm-3.8.0/pl_core_news_sm-3.8.0-py3-none-any.whl
+optuna>=3.0.0
+tqdm>=4.65.0
+google-cloud-storage>=2.10.0
+google-cloud-aiplatform>=1.35.0
