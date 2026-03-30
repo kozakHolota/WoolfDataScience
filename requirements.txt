@@ -45,6 +45,7 @@ pygad
 pygame
 PyMongo
 pylint
+pymysql
 random_word
 ray[tune]
 ruff
