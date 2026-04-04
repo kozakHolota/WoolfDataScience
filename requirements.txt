@@ -38,6 +38,10 @@ plotly
 plotly
 prophet
 psycopg2-binary
+pyspark==3.5.3
+delta-spark==3.2.0
+pyarrow>=14.0.0
+py4j==0.10.9.7
 pulp
 px
 pydot
