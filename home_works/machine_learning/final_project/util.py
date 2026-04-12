@@ -73,7 +73,7 @@ class HyperParametersOptimizer:
     def catboost_objective(self, trial):
         weight_pos = trial.suggest_float("weight_pos", 1.0, 50.0, log=True)
         params  = {
-            'iterations': trial.suggest_int('iterations', 100, 1000),
+            'timeout': trial.suggest_int('timeout', 100, 1000),
             'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3, log=True),
             'depth': trial.suggest_int('depth', 3, 12),
             'loss_function': 'Logloss',

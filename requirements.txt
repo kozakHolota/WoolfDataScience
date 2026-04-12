@@ -18,6 +18,7 @@ imbalanced-learn
 ipywidgets>=7.6
 jax
 jupyterlab>=3
+kafka-python
 kaggle
 kagglehub[pandas-datasets]
 kneed
