@@ -31,6 +31,6 @@ def catch_exceptions(sensor_ids: List[str]):
 
 def get_alerts():
     with get_kafka_consumer(group_id='alert_reader') as consumer:
-        consumer.subscribe(['temperature_alerts', 'humidity_alerts'])
+        consumer.subscribe(['alerts'])
         for message in consumer:
             print(f"[READ] topic={message.topic} alert={message.value}")

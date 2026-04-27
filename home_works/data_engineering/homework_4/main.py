@@ -3,7 +3,7 @@ from threading import Thread
 from typing import List
 
 import click
-from operational import run_sensor, catch_exceptions, get_alerts
+from operational import run_sensor, get_alerts
 
 def get_sensor_ids(sensors_amount: int) -> List[str]:
     return [f"sensor_{uuid.uuid4()}" for _ in range(sensors_amount)]
@@ -21,17 +21,13 @@ def main(iterations: int, sensors_amount: int, timeout: int):
     for sensor in sensors:
         sensor.start()
 
-    monitor = Thread(target=catch_exceptions, args=(sensor_ids,))
-    monitor.start()
-
-    alert_listener = Thread(target=get_alerts)
+    alert_listener = Thread(target=get_alerts, daemon=True)
     alert_listener.start()
 
     for sensor in sensors:
         sensor.join()
 
-    monitor.join()
-    alert_listener.join()
+    alert_listener.join(timeout)
 
 
 if __name__ == "__main__":

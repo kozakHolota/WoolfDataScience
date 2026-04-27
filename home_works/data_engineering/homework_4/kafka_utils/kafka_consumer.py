@@ -13,7 +13,7 @@ def get_kafka_consumer(group_id: str) -> Generator[KafkaConsumer, Any, None]:
     kafka_consumer = KafkaConsumer(
         **kafka_config,
         value_deserializer=lambda v: json.loads(v.decode('utf-8')),
-        key_deserializer=lambda v: json.loads(v.decode('utf-8')),
+        key_deserializer=lambda v: json.loads(v.decode('utf-8')) if v else None,
         auto_offset_reset='earliest',
         enable_auto_commit=True,
         group_id=group_id,
