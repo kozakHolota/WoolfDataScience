@@ -1,3 +1,9 @@
+BTrees
+# Apache Airflow
+apache-airflow>=2.8.0
+apache-airflow-providers-mysql
+pytest-airflow
+
 accelerate
 aiohttp
 asyncio
@@ -34,6 +40,7 @@ notebook
 numpy
 opencv-python
 optuna
+openai
 pandas
 plotly
 plotly
